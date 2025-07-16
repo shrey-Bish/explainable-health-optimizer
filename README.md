@@ -125,7 +125,7 @@ pip install -r requirements.txt
 
 **Shrey Bishnoi**
 MS in Computer Science (Arizona State University)
-[LinkedIn](https://linkedin.com) | [GitHub](https://github.com/yourusername)
+[LinkedIn](https://www.linkedin.com/in/shrey-bishnoi/) | [GitHub](https://github.com/shrey-Bish)
 
 ---
 
@@ -139,6 +139,6 @@ MIT License – feel free to use, fork, and contribute.
 
 Would you like me to customize:
 - Your actual GitHub username or LinkedIn?
-- Add screenshots/GIFs to this README?
+
 
 ]
