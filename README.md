@@ -135,10 +135,11 @@ MIT License – feel free to use, fork, and contribute.
 
 ```
 
----
+## 🖥️ Dashboard Preview
 
-Would you like me to customize:
-- Your actual GitHub username or LinkedIn?
+<img src="assets/dashboard_view.png" alt="Dashboard" width="800"/>
 
+## 🔄 SHAP Force Plot in Action
 
-]
+![SHAP Force Plot](assets/shap_force.gif)
+
