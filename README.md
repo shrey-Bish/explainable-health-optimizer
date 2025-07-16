@@ -129,17 +129,55 @@ MS in Computer Science (Arizona State University)
 
 ---
 
+
+### 📸 **Dashboard Visualizations**
+
+Below are visual previews of the Explainable Health Optimizer in action:
+
+---
+
+#### 🏠 Main Dashboard View
+
+<img src="assets/Dashboard.png" alt="Main Dashboard" width="800"/>
+
+---
+
+#### 🎯 Predicted Probability + Label
+
+Displays predicted probability of readmission and the corresponding label.
+
+<img src="assets/Probability_Predictor.png" alt="Prediction Section" width="700"/>
+
+---
+
+#### 🌍 Global SHAP Feature Importance
+
+Highlights the most influential features across all predictions.
+
+<img src="assets/Global_SHAP.png" alt="Global SHAP" width="700"/>
+
+---
+
+#### 📊 SHAP Summary Plot
+
+Shows feature importance and distribution across the SHAP space.
+
+<img src="assets/SHAP_Summary.png" alt="SHAP Summary" width="700"/>
+
+---
+
+#### 🔬 Local SHAP Force Plot
+
+Explains why a specific patient was predicted as readmitted or not.
+
+<img src="assets/Local_SHAP_Force_Plot.png" alt="Local SHAP Force Plot" width="800"/>
+
+---
+
+
 ## 📄 License
 
 MIT License – feel free to use, fork, and contribute.
 
-```
 
-## 🖥️ Dashboard Preview
-
-<img src="assets/dashboard_view.png" alt="Dashboard" width="800"/>
-
-## 🔄 SHAP Force Plot in Action
-
-![SHAP Force Plot](assets/shap_force.gif)
 
