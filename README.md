@@ -96,6 +96,16 @@ streamlit run dashboard/app.py
 
 ---
 
+## 🌐 Live Demo
+
+Try the **Explainable Health Optimizer** now on Streamlit Cloud:
+
+🔗 [https://explainable-health-optimizer-diabetes.streamlit.app](https://explainable-health-optimizer-diabetes.streamlit.app)
+
+Explore model predictions, SHAP-based explainability, and patient-specific insights directly in your browser.
+
+---
+
 ## 📚 Notebooks Included
 
 | Notebook                        | Purpose                                        |
