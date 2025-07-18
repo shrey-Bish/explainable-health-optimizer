@@ -115,5 +115,6 @@ websocket-client==1.8.0
 widgetsnbextension==4.0.14
 zipp==3.23.0
 lightgbm
+shap==0.44.1
 xgboost
 
