@@ -6,6 +6,106 @@ import joblib
 import matplotlib.pyplot as plt
 import os
 
+# Feature name mapping
+feature_name_mapping = {
+    "age": "Age",
+    "admission_type_id": "Admission Type",
+    "discharge_disposition_id": "Discharge Disposition",
+    "admission_source_id": "Admission Source",
+    "time_in_hospital": "Days in Hospital",
+    "num_lab_procedures": "Lab Procedures",
+    "num_procedures": "Procedures Performed",
+    "num_medications": "Medications Given",
+    "number_outpatient": "Outpatient Visits",
+    "number_emergency": "Emergency Visits",
+    "number_inpatient": "Inpatient Visits",
+    "number_diagnoses": "Number of Diagnoses",
+
+    # Race
+    "race_Asian": "Race: Asian",
+    "race_Caucasian": "Race: Caucasian",
+    "race_Hispanic": "Race: Hispanic",
+    "race_Other": "Race: Other",
+
+    # Gender
+    "gender_Male": "Gender: Male",
+    "gender_Unknown/Invalid": "Gender: Unknown",
+
+    # Medications - Metformin and others
+    "metformin_No": "Metformin: Not Used",
+    "metformin_Steady": "Metformin: Steady Dose",
+    "metformin_Up": "Metformin: Increased Dose",
+
+    "repaglinide_No": "Repaglinide: Not Used",
+    "repaglinide_Steady": "Repaglinide: Steady Dose",
+    "repaglinide_Up": "Repaglinide: Increased Dose",
+
+    "nateglinide_No": "Nateglinide: Not Used",
+    "nateglinide_Steady": "Nateglinide: Steady Dose",
+    "nateglinide_Up": "Nateglinide: Increased Dose",
+
+    "chlorpropamide_No": "Chlorpropamide: Not Used",
+    "chlorpropamide_Steady": "Chlorpropamide: Steady Dose",
+    "chlorpropamide_Up": "Chlorpropamide: Increased Dose",
+
+    "glimepiride_No": "Glimepiride: Not Used",
+    "glimepiride_Steady": "Glimepiride: Steady Dose",
+    "glimepiride_Up": "Glimepiride: Increased Dose",
+
+    "acetohexamide_Steady": "Acetohexamide: Steady Dose",
+
+    "glipizide_No": "Glipizide: Not Used",
+    "glipizide_Steady": "Glipizide: Steady Dose",
+    "glipizide_Up": "Glipizide: Increased Dose",
+
+    "glyburide_No": "Glyburide: Not Used",
+    "glyburide_Steady": "Glyburide: Steady Dose",
+    "glyburide_Up": "Glyburide: Increased Dose",
+
+    "tolbutamide_Steady": "Tolbutamide: Steady Dose",
+
+    "pioglitazone_No": "Pioglitazone: Not Used",
+    "pioglitazone_Steady": "Pioglitazone: Steady Dose",
+    "pioglitazone_Up": "Pioglitazone: Increased Dose",
+
+    "rosiglitazone_No": "Rosiglitazone: Not Used",
+    "rosiglitazone_Steady": "Rosiglitazone: Steady Dose",
+    "rosiglitazone_Up": "Rosiglitazone: Increased Dose",
+
+    "acarbose_No": "Acarbose: Not Used",
+    "acarbose_Steady": "Acarbose: Steady Dose",
+    "acarbose_Up": "Acarbose: Increased Dose",
+
+    "miglitol_No": "Miglitol: Not Used",
+    "miglitol_Steady": "Miglitol: Steady Dose",
+    "miglitol_Up": "Miglitol: Increased Dose",
+
+    "troglitazone_Steady": "Troglitazone: Steady Dose",
+
+    "tolazamide_Steady": "Tolazamide: Steady Dose",
+    "tolazamide_Up": "Tolazamide: Increased Dose",
+
+    "insulin_No": "Insulin: Not Used",
+    "insulin_Steady": "Insulin: Steady Dose",
+    "insulin_Up": "Insulin: Increased Dose",
+
+    "glyburide-metformin_No": "Glyburide-Metformin: Not Used",
+    "glyburide-metformin_Steady": "Glyburide-Metformin: Steady Dose",
+    "glyburide-metformin_Up": "Glyburide-Metformin: Increased Dose",
+
+    "glipizide-metformin_Steady": "Glipizide-Metformin: Steady Dose",
+    "glimepiride-pioglitazone_Steady": "Glimepiride-Pioglitazone: Steady Dose",
+    "metformin-rosiglitazone_Steady": "Metformin-Rosiglitazone: Steady Dose",
+    "metformin-pioglitazone_Steady": "Metformin-Pioglitazone: Steady Dose",
+
+    "change_No": "Change in Medications: No",
+    "diabetesMed_Yes": "On Diabetes Medication"
+}
+
+
+def map_feature_names(cols):
+    return [feature_name_mapping.get(col, col) for col in cols]
+
 # Setup page
 st.set_page_config(layout="wide", page_title="Explainable Health Optimizer")
 st.title("🩺 Explainable Health Optimizer Dashboard")
@@ -14,7 +114,7 @@ st.markdown("Visualizing diabetes readmission predictions using **SHAP** & **Lig
 # Set up base path
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_PATH = os.path.join(BASE_DIR, 'notebooks', 'models', 'lightgbm.pkl')
-INPUT_PATH = os.path.join(BASE_DIR, 'notebooks', 'outputs', 'shap_input.csv')
+INPUT_PATH = os.path.join(BASE_DIR, 'notebooks', 'assets', 'shap_input.csv')
 
 # Load model and data
 model_bundle = joblib.load(MODEL_PATH)
@@ -39,13 +139,14 @@ col1, col2 = st.columns([2, 1])
 
 with col1:
     st.subheader("👤 Selected Patient Data")
-    st.dataframe(X_sample.iloc[[index]].T)
+    patient_df = X_sample.iloc[[index]].T
+    patient_df.index = map_feature_names(patient_df.index)
+    st.dataframe(patient_df)
 
 with col2:
     proba = model.predict_proba(X_sample.iloc[[index]])[0][1]
     label = "🔴 At Risk of Readmission" if proba > 0.5 else "🟢 Not Likely to be Readmitted"
 
-   
 st.markdown(f"### 🎯 Predicted Probability: `{proba:.2f}`")
 
 if proba > 0.5:
@@ -96,7 +197,7 @@ with st.expander("🌊 SHAP Waterfall Plot"):
 with st.expander("📌 Top 5 Contributing Features", expanded=True):
     shap_values_patient = shap_values_class1[index].values
     feature_contributions = pd.DataFrame({
-        "Feature": X_sample.columns,
+        "Feature": map_feature_names(X_sample.columns),
         "SHAP Value": shap_values_patient,
         "Feature Value": X_sample.iloc[index].values
     })
@@ -112,7 +213,13 @@ with st.expander("📌 Top 5 Contributing Features", expanded=True):
 # SHAP Dependence Plot
 # =========================
 with st.expander("📈 SHAP Dependence Plot"):
-    selected_feature = st.selectbox("🔬 Select feature", X_sample.columns.tolist())
+    col_display_names = map_feature_names(X_sample.columns)
+    selected_display_name = st.selectbox("🔬 Select feature", col_display_names)
+
+    # Map display name back to original column
+    inverse_mapping = {v: k for k, v in feature_name_mapping.items()}
+    selected_feature = inverse_mapping.get(selected_display_name, selected_display_name)
+
     if selected_feature:
         plt.clf()
         shap.dependence_plot(selected_feature, shap_values_class1.values, X_sample, show=False)
@@ -131,9 +238,10 @@ with st.expander("📥 Downloadable Patient Report"):
     top_indices = np.argsort(np.abs(shap_values_class1.values[index]))[::-1][:top_k]
     for i, idx in enumerate(top_indices):
         feature = X_sample.columns[idx]
+        feature_name = feature_name_mapping.get(feature, feature)
         value = X_sample.iloc[index, idx]
         shap_val = shap_values_class1.values[index, idx]
-        report_dict[f"Feature {i+1}"] = feature
+        report_dict[f"Feature {i+1}"] = feature_name
         report_dict[f"Value {i+1}"] = value
         report_dict[f"SHAP {i+1}"] = shap_val
 
